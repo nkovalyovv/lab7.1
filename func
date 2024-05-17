@@ -1,0 +1,61 @@
+#include "functions.h"
+#include <iostream>
+
+void splitStack(Node* P1, Node*& evenStackTop, Node*& oddStackTop) {
+    Node* current = P1;
+    Node* evenTemp = nullptr;
+    Node* oddTemp = nullptr;
+
+    while (current != nullptr) {
+        Node* temp = current->next;
+
+        if (current->data % 2 == 0) {
+            current->next = evenTemp;
+            evenTemp = current;
+        }
+        else {
+            current->next = oddTemp;
+            oddTemp = current;
+        }
+
+        current = temp;
+    }
+
+    while (evenTemp != nullptr) {
+        Node* temp = evenTemp->next;
+        evenTemp->next = evenStackTop;
+        evenStackTop = evenTemp;
+        evenTemp = temp;
+    }
+
+    while (oddTemp != nullptr) {
+        Node* temp = oddTemp->next;
+        oddTemp->next = oddStackTop;
+        oddStackTop = oddTemp;
+        oddTemp = temp;
+    }
+}
+
+void printStackAndAddress(Node* top) {
+    if (top == nullptr) {
+        std::cout << "NIL";
+    }
+    else {
+        std::cout << top << ": ";
+        Node* current = top;
+        while (current != nullptr) {
+            std::cout << current->data << " ";
+            current = current->next;
+        }
+    }
+    std::cout << std::endl;
+}
+
+void deleteStack(Node* top) {
+    Node* current = top;
+    while (current != nullptr) {
+        Node* temp = current;
+        current = current->next;
+        delete temp;
+    }
+}
